@@ -3,14 +3,18 @@ FROM python:3.7-slim-stretch
 RUN apt-get update && apt-get install -y git python3-dev gcc \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
+RUN mkdir -p /code
 
-RUN pip install --upgrade -r requirements.txt
+COPY requirements.txt /code
 
-COPY app app/
+RUN pip install --upgrade -r /code/requirements.txt
 
-RUN python app/server.py
+# COPY app code/app/
+
+WORKDIR /code
 
 EXPOSE 5000
 
-CMD ["python", "app/server.py", "serve"]
+# RUN python app/server.py
+
+# CMD ["python", "app/server.py", "serve"]
